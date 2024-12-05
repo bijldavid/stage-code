@@ -38,6 +38,7 @@
     --color-secondary: #12167B;
 
     --color-red: #EA3737;
+    --color-red2: #ea373727;
 
     /* border */
     --border-primary: #12167B;
@@ -154,7 +155,8 @@ body {
 .marked {
     width: 100%;
     height: 100%;
-    background-color: var(--color-primary);
+    background-color: var(--color-red2);
+    border-radius: 5px;
 }
 
 .default-space {
@@ -194,7 +196,7 @@ body {
     opacity: 0;
 }
 
-.line-selected {
+.line-pain-selected {
     background-color: var(--color-red);
     /* Tomato red when selected */
     height: 2px;
@@ -239,11 +241,11 @@ body {
     z-index: 10;
 }
 
-.pijnpunt.selected {
+.pijnpunt.pain-selected {
     outline: 2px solid var(--color-red);
 }
 
-.pijnpunt.selected::after {
+.pijnpunt.pain-selected::after {
     content: '';
     position: absolute;
     height: 10px;
@@ -497,6 +499,7 @@ body {
     grid-template-rows: repeat(auto-fit, 1fr);
     gap: var(--grid-gap);
     margin: var(--grid-padding) 0;
+    pointer-events: none;
 }
 
 .grid>.verbeterinitiatief-container .verbeterinitiatief-container-decoration div {
@@ -526,6 +529,14 @@ body {
     box-shadow: 0 3px 4px rgba(0, 0, 0, .1);
 }
 
-.verbeterinitiatief.selected {
+.verbeterinitiatief.pain-selected {
     outline: 2px solid var(--color-red);
+}
+
+.verbeterinitiatief.VI-selected {
+    background-color: var(--color-red2);
+}
+
+.marked-highlight {
+    background-color: var(--color-red);
 }

@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   infoContainers.forEach(container => {
     const paragraph = container.querySelector('p');
     const infoIcon = container.querySelector('svg');
-    
+
     // Add 'p-minimized' class to paragraphs
     paragraph.classList.add('p-minimized');
 
@@ -29,22 +29,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const closestDiv = this.closest('div');
       const nextSibling = closestDiv.nextElementSibling;
       const parentClass = nextSibling.classList[1];
-  
+
       const infoContainers = document.querySelectorAll(`.subgrid.${parentClass} .info`);
-  
+
       // Toggle expanded and p-minimized classes
       infoContainers.forEach(container => {
         const paragraph = container.querySelector('p');
         const infoIcon = container.querySelector('svg');
         const infoIconContainer = container.querySelector('.svg-container');
-        
+
         // Toggle container expansion
         container.classList.toggle('expanded');
-        
+
         // Toggle paragraph minimization
         const isExpanded = container.classList.contains('expanded');
         paragraph.classList.toggle('p-minimized', !isExpanded);
-        
+
         // Toggle info icon visibility if icon exists
         if (infoIcon) {
           infoIcon.classList.toggle('invisible', isExpanded);
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     };
   });
-  
+
 
   // ---------------------------------------------------------
   // Handle the invisible class toggling on checkboxes
@@ -102,165 +102,274 @@ document.addEventListener('DOMContentLoaded', () => {
       checkbox.classList.add('checked');
     }
   });
-});
 
-// ---------------------------------------------------------
-// Dynamic VI adder
-// ---------------------------------------------------------
-const verbeterinitiatieven = document.querySelectorAll('.verbeterinitiatief');
-const subgrids = document.querySelectorAll('.subgrid');
+  // ---------------------------------------------------------
+  // Create and map .marked divs to verbeterinitiatieven
+  // ---------------------------------------------------------
 
-subgrids.forEach(subgrid => {
-  subgrid.querySelectorAll(':scope > div').forEach(container => {
-    const existingMarked = container.querySelectorAll('.marked');
-    existingMarked.forEach(el => el.remove());
+  const verbeterinitiatieven = document.querySelectorAll('.verbeterinitiatief');
+  const subgrids = document.querySelectorAll('.subgrid');
 
-    for (let i = 0; i < verbeterinitiatieven.length; i++) {
-      const markedDiv = document.createElement('div');
-      markedDiv.classList.add('marked');
-      container.appendChild(markedDiv);
-    }
+  // Define a manual mapping between verbeterinitiatieven and .marked div indices
+  const markedConnectionMap = [
+    [0, 5, 45],
+    [3, 4],
+    [5],
+    [],
+    [6, 7, 8],
+    [9],
+    [10]
+  ];
+
+  // Generate .marked divs dynamically inside each subgrid
+  const allMarkedDivs = [];
+  subgrids.forEach(subgrid => {
+    // Get all containers in the subgrid
+    const containers = Array.from(subgrid.querySelectorAll(':scope > div'));
+
+    // Sort containers explicitly from left to right
+    containers.sort((a, b) => {
+      const rectA = a.getBoundingClientRect();
+      const rectB = b.getBoundingClientRect();
+      return rectA.left - rectB.left;
+    });
+
+    // Flatten and create marked divs in the sorted order
+    containers.forEach(container => {
+      const existingMarked = container.querySelectorAll('.marked');
+      existingMarked.forEach(el => el.remove()); // Remove old .marked divs
+
+      for (let i = 0; i < verbeterinitiatieven.length; i++) {
+        const markedDiv = document.createElement('div');
+        markedDiv.classList.add('marked');
+        container.appendChild(markedDiv);
+
+        // Add to the global array for indexing
+        allMarkedDivs.push(markedDiv);
+      }
+    });
   });
-});
 
-// ---------------------------------------------------------
-// Line creator
-// ---------------------------------------------------------
-const leftDivs = document.querySelectorAll(".pijnpunt-container .pijnpunt");
-const rightDivs = document.querySelectorAll(".verbeterinitiatief-container .verbeterinitiatief");
+  // ---------------------------------------------------------
+  // Add click logic for verbeterinitiatieven
+  // ---------------------------------------------------------
 
-function createLine(leftDiv, rightDiv) {
-  const leftRect = leftDiv.getBoundingClientRect();
-  const rightRect = rightDiv.getBoundingClientRect();
+  verbeterinitiatieven.forEach((verbeterInitiatief, viIndex) => {
+    verbeterInitiatief.addEventListener('click', () => {
+      const isSelected = verbeterInitiatief.classList.toggle('VI-selected');
 
-  // Validation checks
-  if (
-    leftRect.width <= 0 ||
-    leftRect.height <= 0 ||
-    rightRect.width <= 0 ||
-    rightRect.height <= 0
-  ) {
-    return;
+      // Get the indices of .marked divs related to this verbeterinitiatief
+      const relatedMarkedIndices = markedConnectionMap[viIndex];
+
+      // Loop through the related indices and update the class of each .marked div
+      relatedMarkedIndices.forEach(index => {
+        const markedDiv = allMarkedDivs[index];
+        if (markedDiv) {
+          if (isSelected) {
+            markedDiv.classList.add('marked-highlight');
+          } else {
+            markedDiv.classList.remove('marked-highlight');
+          }
+        }
+      });
+    });
+  });
+
+
+
+  // ---------------------------------------------------------
+  // Line creator
+  // ---------------------------------------------------------
+  const leftDivs = document.querySelectorAll(".pijnpunt-container .pijnpunt");
+  const rightDivs = document.querySelectorAll(".verbeterinitiatief-container .verbeterinitiatief");
+
+  function createLine(leftDiv, rightDiv) {
+    const leftRect = leftDiv.getBoundingClientRect();
+    const rightRect = rightDiv.getBoundingClientRect();
+
+    // Validation checks
+    if (
+      leftRect.width <= 0 ||
+      leftRect.height <= 0 ||
+      rightRect.width <= 0 ||
+      rightRect.height <= 0
+    ) {
+      return;
+    }
+
+    const leftEdgeCenter = {
+      x: leftRect.right,
+      y: leftRect.top + leftRect.height / 2
+    };
+
+    const rightEdgeCenter = {
+      x: rightRect.left,
+      y: rightRect.top + rightRect.height / 2
+    };
+
+    const dx = rightEdgeCenter.x - leftEdgeCenter.x;
+    const dy = rightEdgeCenter.y - leftEdgeCenter.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+    if (distance <= 0 || isNaN(distance)) {
+      return;
+    }
+
+    const line = document.createElement("div");
+    line.classList.add("line");
+
+    // Add a class to indicate connection between specific elements
+    const leftIndex = Array.from(leftDiv.parentElement.children).indexOf(leftDiv);
+    const rightIndex = Array.from(rightDiv.parentElement.children).indexOf(rightDiv);
+    line.classList.add(`line-${leftDiv.parentElement.children.length - leftIndex - 1}-${rightIndex}`);
+
+    // Check if the corresponding divs are selected
+    if (leftDiv.classList.contains('pain-selected')) {
+      line.classList.add('line-pain-selected');
+    }
+
+    document.body.appendChild(line);
+
+    line.style.width = `${distance}px`;
+    line.style.transform = `rotate(${angle}deg)`;
+    line.style.position = "absolute";
+    line.style.left = `${leftEdgeCenter.x}px`;
+    line.style.top = `${leftEdgeCenter.y}px`;
   }
 
-  const leftEdgeCenter = {
-    x: leftRect.right,
-    y: leftRect.top + leftRect.height / 2
-  };
+  // Modify the drawLines function to use the new line creation logic
+  function drawLines() {
+    const lines = document.querySelectorAll(".line");
+    lines.forEach((line) => line.remove());
 
-  const rightEdgeCenter = {
-    x: rightRect.left,
-    y: rightRect.top + rightRect.height / 2
-  };
-
-  const dx = rightEdgeCenter.x - leftEdgeCenter.x;
-  const dy = rightEdgeCenter.y - leftEdgeCenter.y;
-  const distance = Math.sqrt(dx * dx + dy * dy);
-  const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-
-  if (distance <= 0 || isNaN(distance)) {
-    return;
+    // Ensure we don't try to create lines if there aren't enough elements
+    if (leftDivs.length > 5 && rightDivs.length > 0) {
+      createLine(leftDivs[0], rightDivs[0]);
+      createLine(leftDivs[1], rightDivs[1]);
+      createLine(leftDivs[2], rightDivs[0]);
+      createLine(leftDivs[3], rightDivs[4]);
+      createLine(leftDivs[4], rightDivs[0]);
+      createLine(leftDivs[5], rightDivs[1]);
+      createLine(leftDivs[6], rightDivs[4]);
+    }
   }
 
-  const line = document.createElement("div");
-  line.classList.add("line");
 
-  // Add a class to indicate connection between specific elements
-  const leftIndex = Array.from(leftDiv.parentElement.children).indexOf(leftDiv);
-  const rightIndex = Array.from(rightDiv.parentElement.children).indexOf(rightDiv);
-  line.classList.add(`line-${leftDiv.parentElement.children.length - leftIndex - 1}-${rightIndex}`);
+  // ---------------------------------------------------------
+  // VI/Pain selection logic
+  // ---------------------------------------------------------
+  const pijnPuntContainer = document.querySelector('.pijnpunt-container');
+  const pijnPunten = pijnPuntContainer.querySelectorAll('.pijnpunt');
+  const verbeterInitiatiefContainer = document.querySelector('.verbeterinitiatief-container');
+  const verbeterInitiatieven = verbeterInitiatiefContainer.querySelectorAll('.verbeterinitiatief');
 
-  // Check if the corresponding divs are selected
-  if (leftDiv.classList.contains('selected')) {
-    line.classList.add('line-selected');
+  // Mapping of pijnpunt indices to verbeterinitiatief indices
+  const connectionMap = [
+    [0, 0],
+    [1, 1],
+    [2, 0],
+    [3, 4],
+    [4, 0],
+    [5, 1],
+    [6, 4]
+  ];
+
+  // Helper function to check if any 'pijnpunt' connected to a 'verbeterinitiatief' is still selected
+  function isAnyPijnpuntSelected(verbeterIndex) {
+    return connectionMap.some(([pijnpuntIndex, verbeterIndexConnected]) => {
+      return verbeterIndexConnected === verbeterIndex && pijnPunten[pijnpuntIndex].classList.contains('pain-selected');
+    });
   }
 
-  document.body.appendChild(line);
-
-  line.style.width = `${distance}px`;
-  line.style.transform = `rotate(${angle}deg)`;
-  line.style.position = "absolute";
-  line.style.left = `${leftEdgeCenter.x}px`;
-  line.style.top = `${leftEdgeCenter.y}px`;
-}
-
-// Modify the drawLines function to use the new line creation logic
-function drawLines() {
-  const lines = document.querySelectorAll(".line");
-  lines.forEach((line) => line.remove());
-
-  // Ensure we don't try to create lines if there aren't enough elements
-  if (leftDivs.length > 5 && rightDivs.length > 0) {
-    createLine(leftDivs[0], rightDivs[0]);
-    createLine(leftDivs[1], rightDivs[1]);
-    createLine(leftDivs[2], rightDivs[0]);
-    createLine(leftDivs[3], rightDivs[4]);
-    createLine(leftDivs[4], rightDivs[0]);
-    createLine(leftDivs[5], rightDivs[1]);
-    createLine(leftDivs[6], rightDivs[4]);
+  // Initialize classes based on the current state of selected pijnpunten
+  function initializeVerbeterinitiatiefState() {
+    verbeterInitiatieven.forEach((verbeterInitiatief, index) => {
+      // Check if any connected 'pijnpunt' is selected
+      if (isAnyPijnpuntSelected(index)) {
+        verbeterInitiatief.classList.add('pain-selected');
+      } else {
+        verbeterInitiatief.classList.add('unselected');
+      }
+    });
   }
-}
 
-// Modify the pijnpunt selection logic to redraw lines when selection changes
-const pijnPuntContainer = document.querySelector('.pijnpunt-container');
-const pijnPunten = pijnPuntContainer.querySelectorAll('.pijnpunt');
-const verbeterInitiatiefContainer = document.querySelector('.verbeterinitiatief-container');
-const verbeterInitiatieven = verbeterInitiatiefContainer.querySelectorAll('.verbeterinitiatief');
+  pijnPunten.forEach((pijnpunt, pijnpuntIndex) => {
+    pijnpunt.addEventListener('click', function () {
+      // Toggle between selected and unselected for pijnpunt
+      if (this.classList.contains('unselected')) {
+        this.classList.remove('unselected');
+        this.classList.add('pain-selected');
+      } else {
+        this.classList.remove('pain-selected');
+        this.classList.add('unselected');
+      }
 
-// Mapping of pijnpunt indices to verbeterinitiatief indices
-const connectionMap = [
-  [0, 0],
-  [1, 1],
-  [2, 0],
-  [3, 4],
-  [4, 0],
-  [5, 1],
-  [6, 4]
-];
-
-pijnPunten.forEach((pijnpunt, pijnpuntIndex) => {
-  pijnpunt.addEventListener('click', function () {
-    // Toggle between selected and unselected for pijnpunt
-    if (this.classList.contains('unselected')) {
-      this.classList.remove('unselected');
-      this.classList.add('selected');
-
-      // Find corresponding verbeterinitiatief and select it
+      // Now check if the related 'verbeterinitiatief' needs its class updated
       connectionMap.forEach(([leftIndex, rightIndex]) => {
         if (leftIndex === pijnpuntIndex) {
           const correspondingVerbeterInitiatief = verbeterInitiatieven[rightIndex];
           if (correspondingVerbeterInitiatief) {
-            correspondingVerbeterInitiatief.classList.remove('unselected');
-            correspondingVerbeterInitiatief.classList.add('selected');
+            // Add 'pain-selected' to the related 'verbeterinitiatief' if any connected 'pijnpunt' is selected
+            if (isAnyPijnpuntSelected(rightIndex)) {
+              correspondingVerbeterInitiatief.classList.add('pain-selected');
+            } else {
+              correspondingVerbeterInitiatief.classList.remove('pain-selected');
+            }
           }
         }
       });
-    } else {
-      this.classList.remove('selected');
-      this.classList.add('unselected');
 
-      // Deselect corresponding verbeterinitiatief
-      connectionMap.forEach(([leftIndex, rightIndex]) => {
-        if (leftIndex === pijnpuntIndex) {
-          const correspondingVerbeterInitiatief = verbeterInitiatieven[rightIndex];
-          if (correspondingVerbeterInitiatief) {
-            correspondingVerbeterInitiatief.classList.remove('selected');
-            correspondingVerbeterInitiatief.classList.add('unselected');
-          }
-        }
-      });
-    }
-
-    // Redraw lines to update their color
-    drawLines();
+      drawLines(); // Recalculate lines
+    });
   });
+
+  verbeterInitiatieven.forEach((verbeterInitiatief, index) => {
+    verbeterInitiatief.addEventListener('click', function () {
+      // Toggle between selected and unselected for verbeterinitiatief
+      if (this.classList.contains('unselected')) {
+        this.classList.remove('unselected');
+        this.classList.add('pain-selected');
+        this.classList.add('VI-selected'); // Add the VI-selected class only when the verbeterinitiatief is clicked
+
+        // Find corresponding pijnpunt and select it
+        connectionMap.forEach(([leftIndex, rightIndex]) => {
+          if (rightIndex === index) {
+            const correspondingPijnpunt = pijnPunten[leftIndex];
+            if (correspondingPijnpunt) {
+              correspondingPijnpunt.classList.remove('unselected');
+              correspondingPijnpunt.classList.add('pain-selected');
+            }
+          }
+        });
+      } else {
+        this.classList.remove('pain-selected');
+        this.classList.add('unselected');
+        this.classList.remove('VI-selected'); // Remove the VI-selected class here
+
+        // Deselect corresponding pijnpunt
+        connectionMap.forEach(([leftIndex, rightIndex]) => {
+          if (rightIndex === index) {
+            const correspondingPijnpunt = pijnPunten[leftIndex];
+            if (correspondingPijnpunt) {
+              correspondingPijnpunt.classList.remove('pain-selected');
+              correspondingPijnpunt.classList.add('unselected');
+            }
+          }
+        });
+      }
+      drawLines();
+    });
+  });
+
+  drawLines();  // Ensure lines are drawn on load
+
+  // Initialize the state of the verbeterinitiatief divs on load
+  initializeVerbeterinitiatiefState();
+
+  // Listen for window resizing and redraw lines
+  window.addEventListener('resize', drawLines);
 });
-
-// Initial line creation
-drawLines();
-
-// Resize handler to update line positions dynamically
-window.addEventListener("resize", drawLines);
 
 
 // ---------------------------------------------------------
