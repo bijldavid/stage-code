@@ -565,11 +565,9 @@ body {
 .verbeterinitiatief.VI-selected {
     position: relative;
     padding: 1em;
-    background-color: var(--color-red2);
     width: 100%;
     height: max-content;
     border-radius: 5px;
-    outline: 1px solid var(--border-secondary);
     box-shadow: 0 3px 4px rgba(0, 0, 0, .1);
 }
 
@@ -590,8 +588,8 @@ body {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    content: '';
     background-color: var(--color-red);
+    content: '';
     left: 0;
     top: 50%;
     transform: translate(-55%, -50%);
@@ -603,7 +601,6 @@ body {
     height: 8px;
     border-radius: 50%;
     content: '';
-    background-color: var(--color-red);
     left: 0;
     top: 50%;
     transform: translate(-55%, -50%);

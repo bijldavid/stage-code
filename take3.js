@@ -113,10 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Define a manual mapping between verbeterinitiatieven and .marked div indices
   const markedConnectionMap = [
     [0, 5, 45],
-    [3, 4],
-    [5],
-    [],
-    [6, 7, 8],
+    [6, 16, 76],
+    [17, 47, 67],
+    [28, 38],
+    [69, 89],
     [9],
     [10]
   ];
@@ -161,14 +161,21 @@ document.addEventListener('DOMContentLoaded', () => {
       // Get the indices of .marked divs related to this verbeterinitiatief
       const relatedMarkedIndices = markedConnectionMap[viIndex];
 
-      // Loop through the related indices and update the class of each .marked div
+      // Get the background color of the ::before pseudo-element
+      const backgroundColor = isSelected
+        ? window.getComputedStyle(verbeterInitiatief, '::before').backgroundColor
+        : '';
+
+      // Loop through the related indices and update the class and background color of each .marked div
       relatedMarkedIndices.forEach(index => {
         const markedDiv = allMarkedDivs[index];
         if (markedDiv) {
           if (isSelected) {
             markedDiv.classList.add('marked-highlight');
+            markedDiv.style.backgroundColor = backgroundColor;
           } else {
             markedDiv.classList.remove('marked-highlight');
+            markedDiv.style.backgroundColor = '';
           }
         }
       });
@@ -323,6 +330,63 @@ document.addEventListener('DOMContentLoaded', () => {
       drawLines(); // Recalculate lines
     });
   });
+
+
+
+
+
+  verbeterInitiatieven.forEach((verbeterInitiatief, viIndex) => {
+    verbeterInitiatief.addEventListener('click', () => {
+        console.log('--- Click Event Triggered ---');
+        console.log('Verbeter Element:', verbeterInitiatief);
+        console.log('Current Classes:', verbeterInitiatief.className);
+
+        // Toggle selection state
+        const isSelected = verbeterInitiatief.classList.toggle('VI-selected');
+        console.log('Is Selected:', isSelected);
+
+        // Attempt to retrieve the CSS variable for the full color
+        const lineColor = isSelected
+            ? window.getComputedStyle(verbeterInitiatief).getPropertyValue(`--VI-${viIndex + 1}-full`).trim()
+            : '';
+        console.log(`Retrieved Line Color for --VI-${viIndex + 1}-full:`, lineColor);
+
+        // Log if no color is retrieved
+        if (!lineColor && isSelected) {
+            console.warn(`No color found for --VI-${viIndex + 1}-full. Check CSS definitions.`);
+        }
+
+        // Find all related lines
+        const relatedLines = document.querySelectorAll(`.line-${viIndex}`);
+        console.log(`Related Lines for Index ${viIndex}:`, relatedLines);
+
+        // Update line styles
+        relatedLines.forEach((line, lineIndex) => {
+            console.log(`Updating Line ${lineIndex}:`, line);
+
+            if (isSelected) {
+                line.style.setProperty('background-color', lineColor, 'important');
+                console.log(`Set Line ${lineIndex} Background Color to:`, lineColor);
+            } else {
+                line.style.removeProperty('background-color');
+                console.log(`Removed Background Color for Line ${lineIndex}`);
+            }
+        });
+
+        console.log('--- End of Click Event ---\n');
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
 
   verbeterInitiatieven.forEach((verbeterInitiatief, index) => {
     verbeterInitiatief.addEventListener('click', function () {

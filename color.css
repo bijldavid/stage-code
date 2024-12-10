@@ -1,0 +1,104 @@
+:root {
+    /* ------- COLORS ------- */
+    --VI-1-full: #FF5733;
+    --VI-1-dimmed: #ff58333a;
+
+    --VI-2-full: #3ed45f;
+    --VI-2-dimmed: #3ed45e34;
+
+    --VI-3-full: #5d52d4;
+    --VI-3-dimmed: #5d52d439;
+
+    --VI-4-full: #60a1f0;
+    --VI-4-dimmed: #60a1f02b;
+
+    --VI-5-full: #f7d83a;
+    --VI-5-dimmed: #f7d83a31;
+
+    --color-red: #EA3737;
+    --color-red2: #ea373727;
+}
+
+/* 
+#VI-1.VI-selected {
+    background-color: var(--color-red2);
+}
+
+#VI-1.VI-selected::before {
+    background-color: var(--color-red);
+}
+
+#VI-2.VI-selected {
+    background-color: var(--color-red2);
+}
+
+#VI-2.VI-selected::before {
+    background-color: var(--color-red);
+}
+
+#VI-3.VI-selected {
+    background-color: var(--color-red2);
+}
+
+#VI-3.VI-selected::before {
+    background-color: var(--color-red);
+}
+
+#VI-4.VI-selected {
+    background-color: var(--color-red2);
+}
+
+#VI-4.VI-selected::before {
+    background-color: var(--color-red);
+}
+
+#VI-5.VI-selected {
+    background-color: var(--color-red2);
+}
+
+#VI-5.VI-selected::before {
+    background-color: var(--color-red);
+} */
+
+
+
+#VI-1.VI-selected {
+    background-color: var(--VI-1-dimmed);
+}
+
+#VI-1.VI-selected::before {
+    background-color: var(--VI-1-full);
+}
+
+#VI-2.VI-selected {
+    background-color: var(--VI-2-dimmed);
+}
+
+#VI-2.VI-selected::before {
+    background-color: var(--VI-2-full);
+}
+
+#VI-3.VI-selected {
+    background-color: var(--VI-3-dimmed);
+}
+
+#VI-3.VI-selected::before {
+    background-color: var(--VI-3-full);
+}
+
+#VI-4.VI-selected {
+    background-color: var(--VI-4-dimmed);
+}
+
+#VI-4.VI-selected::before {
+    background-color: var(--VI-4-full);
+}
+
+#VI-5.VI-selected {
+    background-color: var(--VI-5-dimmed);
+}
+
+#VI-5.VI-selected::before {
+    background-color: var(--VI-5-full);
+}
+
