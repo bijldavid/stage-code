@@ -353,11 +353,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const verbeterinitiatievenThema3 = document.querySelectorAll('.thema-3 .verbeterinitiatief');
 
   const markedConnectionMapThema3 = [
-    [0, 5, 10],
-    [1, 31],
-    [2, 12],
-    [3, 13],
-    [4, 14]
+    [0, 3, 30],
+    [1, 19, 25],
+    [8, 17, 44]
   ];
 
   const thema3Container = document.querySelector('.thema-3.marked-container');
