@@ -102,3 +102,67 @@
     background-color: var(--VI-5-full);
 }
 
+#VI-6.VI-selected {
+    background-color: var(--VI-1-dimmed);
+}
+
+#VI-6.VI-selected::before {
+    background-color: var(--VI-1-full);
+}
+
+#VI-7.VI-selected {
+    background-color: var(--VI-2-dimmed);
+}
+
+#VI-7.VI-selected::before {
+    background-color: var(--VI-2-full);
+}
+
+#VI-8.VI-selected {
+    background-color: var(--VI-3-dimmed);
+}
+
+#VI-8.VI-selected::before {
+    background-color: var(--VI-3-full);
+}
+
+#VI-9.VI-selected {
+    background-color: var(--VI-4-dimmed);
+}
+
+#VI-9.VI-selected::before {
+    background-color: var(--VI-4-full);
+}
+
+#VI-10.VI-selected {
+    background-color: var(--VI-5-dimmed);
+}
+
+#VI-10.VI-selected::before {
+    background-color: var(--VI-5-full);
+}
+
+#VI-11.VI-selected {
+    background-color: var(--VI-1-dimmed);
+}
+
+#VI-11.VI-selected::before {
+    background-color: var(--VI-1-full);
+}
+
+#VI-12.VI-selected {
+    background-color: var(--VI-2-dimmed);
+}
+
+#VI-12.VI-selected::before {
+    background-color: var(--VI-2-full);
+}
+
+#VI-13.VI-selected {
+    background-color: var(--VI-3-dimmed);
+}
+
+#VI-13.VI-selected::before {
+    background-color: var(--VI-3-full);
+}
+  
