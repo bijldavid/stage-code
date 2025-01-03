@@ -54,14 +54,8 @@ h4,
 p {
     margin: 0;
     font-family: Roboto, sans-serif;
-    font-size: .5rem;
+    font-size: .58rem;
     color: var(--uwv-color);
-}
-
-img {
-    display: block;
-    height: 10px;
-    width: 10px;
 }
 
 body {
@@ -456,6 +450,13 @@ body {
     padding: calc(var(--grid-padding) / 2) 0;
 }
 
+.SO-titel img {
+    display: block;
+    height: 10px;
+    width: 10px;
+    cursor: pointer;
+}
+
 
 .SO-titel>div {
     background-color: var(--background-white);
@@ -476,6 +477,7 @@ body {
     height: 10px;
     width: 10px;
     border-radius: 2.5px;
+    cursor: pointer;
 }
 
 .checked {
