@@ -1,168 +1,90 @@
-:root {
-    /* ------- COLORS ------- */
-    --VI-1-full: #FF5733;
-    --VI-1-dimmed: #ff58333a;
-
-    --VI-2-full: #3ed45f;
-    --VI-2-dimmed: #3ed45e34;
-
-    --VI-3-full: #5d52d4;
-    --VI-3-dimmed: #5d52d439;
-
-    --VI-4-full: #60a1f0;
-    --VI-4-dimmed: #60a1f02b;
-
-    --VI-5-full: #f7d83a;
-    --VI-5-dimmed: #f7d83a31;
-
-    --color-red: #EA3737;
-    --color-red2: #ea373727;
+/* Verbeterinitiatief 1 */
+#Servicepunt.VI-selected {
+    background-color: #ff583337;
 }
 
-/* 
-#VI-1.VI-selected {
-    background-color: var(--color-red2);
+#Servicepunt.VI-selected::before {
+    background-color: #FF5733;
 }
 
-#VI-1.VI-selected::before {
-    background-color: var(--color-red);
+/* Verbeterinitiatief 2 */
+#InfoPakketJongere.VI-selected {
+    background-color: #3ed45e34;
 }
 
-#VI-2.VI-selected {
-    background-color: var(--color-red2);
+#InfoPakketJongere.VI-selected::before {
+    background-color: #3ed45f;
 }
 
-#VI-2.VI-selected::before {
-    background-color: var(--color-red);
+/* Verbeterinitiatief 3 */
+#Steffie.VI-selected {
+    background-color: #5d52d439;
 }
 
-#VI-3.VI-selected {
-    background-color: var(--color-red2);
+#Steffie.VI-selected::before {
+    background-color: #5d52d4;
 }
 
-#VI-3.VI-selected::before {
-    background-color: var(--color-red);
+/* Verbeterinitiatief 4 */
+#Masterclass.VI-selected {
+    background-color: #60a1f02b;
 }
 
-#VI-4.VI-selected {
-    background-color: var(--color-red2);
+#Masterclass.VI-selected::before {
+    background-color: #60a1f0;
 }
 
-#VI-4.VI-selected::before {
-    background-color: var(--color-red);
+/* Verbeterinitiatief 5 */
+#ContactGegevens.VI-selected {
+    background-color: #f7d83a31;
 }
 
-#VI-5.VI-selected {
-    background-color: var(--color-red2);
+#ContactGegevens.VI-selected::before {
+    background-color: #f7d83a;
 }
 
-#VI-5.VI-selected::before {
-    background-color: var(--color-red);
-} */
-
-
-
-#VI-1.VI-selected {
-    background-color: var(--VI-1-dimmed);
+/* Verbeterinitiatief 6 */
+#VastAanspreekpunt.VI-selected {
+    background-color: #f7863a2a;
 }
 
-#VI-1.VI-selected::before {
-    background-color: var(--VI-1-full);
+#VastAanspreekpunt.VI-selected::before {
+    background-color: #f7863a;
 }
 
-#VI-2.VI-selected {
-    background-color: var(--VI-2-dimmed);
+/* Verbeterinitiatief 7 */
+#GefeliciteerdMail.VI-selected {
+    background-color: #50e0c138;
 }
 
-#VI-2.VI-selected::before {
-    background-color: var(--VI-2-full);
+#GefeliciteerdMail.VI-selected::before {
+    background-color: #5bbba6;
 }
 
-#VI-3.VI-selected {
-    background-color: var(--VI-3-dimmed);
+/* Verbeterinitiatief 8 */
+#OnderdelenLandingspagina.VI-selected {
+    background-color: #de5edc2f;
 }
 
-#VI-3.VI-selected::before {
-    background-color: var(--VI-3-full);
+#OnderdelenLandingspagina.VI-selected::before {
+    background-color: #de5edc;
 }
 
-#VI-4.VI-selected {
-    background-color: var(--VI-4-dimmed);
+/* Verbeterinitiatief 9 */
+#VSOpro.VI-selected {
+    background-color: #7310183e;
 }
 
-#VI-4.VI-selected::before {
-    background-color: var(--VI-4-full);
+#VSOpro.VI-selected::before {
+    background-color: #731018;
 }
 
-#VI-5.VI-selected {
-    background-color: var(--VI-5-dimmed);
+/* Verbeterinitiatief 10 */
+#VRIMcommunicatie.VI-selected {
+    background-color: #39bee334;
 }
 
-#VI-5.VI-selected::before {
-    background-color: var(--VI-5-full);
-}
-
-#VI-6.VI-selected {
-    background-color: var(--VI-1-dimmed);
-}
-
-#VI-6.VI-selected::before {
-    background-color: var(--VI-1-full);
-}
-
-#VI-7.VI-selected {
-    background-color: var(--VI-2-dimmed);
-}
-
-#VI-7.VI-selected::before {
-    background-color: var(--VI-2-full);
-}
-
-#VI-8.VI-selected {
-    background-color: var(--VI-3-dimmed);
-}
-
-#VI-8.VI-selected::before {
-    background-color: var(--VI-3-full);
-}
-
-#VI-9.VI-selected {
-    background-color: var(--VI-4-dimmed);
-}
-
-#VI-9.VI-selected::before {
-    background-color: var(--VI-4-full);
-}
-
-#VI-10.VI-selected {
-    background-color: var(--VI-5-dimmed);
-}
-
-#VI-10.VI-selected::before {
-    background-color: var(--VI-5-full);
-}
-
-#VI-11.VI-selected {
-    background-color: var(--VI-1-dimmed);
-}
-
-#VI-11.VI-selected::before {
-    background-color: var(--VI-1-full);
-}
-
-#VI-12.VI-selected {
-    background-color: var(--VI-2-dimmed);
-}
-
-#VI-12.VI-selected::before {
-    background-color: var(--VI-2-full);
-}
-
-#VI-13.VI-selected {
-    background-color: var(--VI-3-dimmed);
-}
-
-#VI-13.VI-selected::before {
-    background-color: var(--VI-3-full);
+#VRIMcommunicatie.VI-selected::before {
+    background-color: #39bee3;
 }
   
